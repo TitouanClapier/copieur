@@ -1,0 +1,68 @@
+{% extends "nav.html.twig" %}
+
+{% block body %}
+
+
+<div style="padding: 5px;">
+    {# dump(copieurs) #}
+    <h1>Liste</h1>
+
+    <table class="table-bordered " table-dark id='table'>
+        <thead class="thead-dark"> <!-- add class="thead-light" for a light header -->
+        <tr>
+        <th>N° série copieur</th>
+        <th>Dossier</th>
+        <th>Adresse IP</th>
+        <th>Modèle</th>
+        <th>Site</th>
+        <th>Date d'acquisition</th>
+        <th>Fax</th>
+        <th>Lecteur de badge</th>
+        <th>A3</th>
+        <th>Recto-verso</th>
+        <th>Couleur</th>
+        <th>Logo</th>
+        <th>Finisseur</th>
+
+        </tr>
+        </thead>
+        <tbody>
+{% set compte = 0 %}
+{% for copieur in copieurs %} 
+{% set compte = compte + 1 %}
+<tr>
+    <style>
+        a:hover {
+            color:#EDD200;
+        }
+        a{
+            color:black;
+        }
+    </style>
+
+    <td> <u> <a href="copieurdetail?id={{ copieur.id }} ">{{ copieur.matricule }}</a>  <u> </td>
+    <td>{{ copieur.numerodossier }}</td>
+    <td> {% if  copieur.adresseip  == NULL %}  <div style="color: red"> HORS RESEAU </div>  {% else %}  <u> <a href= http://{{ copieur.adresseip }} > {{ copieur.adresseip }}<u>  {% endif %} </td>
+    <td>{{ copieur.Modele }}</td>
+
+    <td>{{ copieur.idSite[0] }}<br>{{ copieur.idSite[1] }}{% if copieur.chemin %} <a href={{ copieur.chemin }} >  <i class="bi bi-map-fill"style=" font-size: 1rem; color: cornflowerblue;"></i> </a> </td> {% endif %}</td>
+    <td>{{ copieur.dateachat|date("d/m/Y") }}</td>
+
+
+	<td>{% if copieur.fax == 0 %} {{'non'}}  {% else %} {{'oui'}}{% endif %} </td>
+	<td>{% if copieur.lecteur_badge == 0 %} {{'non'}}  {% else %} {{'oui'}}{% endif %} </td>
+	<td>{% if copieur.a3 == 0 %} {{'non'}}  {% else %} {{'oui'}}{% endif %} </td>
+	<td>{% if copieur.recto_verso == 0 %} {{'non'}}  {% else %} {{'oui'}}{% endif %} </td>
+	<td>{% if copieur.couleur == 0 %} {{'non'}}  {% else %} {{'oui'}}{% endif %} </td>
+	<td>{% if copieur.logo == 0 %} {{'non'}}  {% else %} {{'oui'}}{% endif %} </td>
+	<td>{% if copieur.finisseur == 'N'%} {{'non'}} {% elseif copieur.finisseur == 'O' %} {{'oui'}}  {% else %}  {{copieur.finisseur}}{% endif %} </td>
+
+
+</tr>
+{% endfor %}
+Liste de tous les copieurs: {{compte}}
+</tbody>
+</table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,305 @@
+{% extends "nav.html.twig" %}
+
+{% block body %}
+
+
+	<div
+		style="padding: 10px;">
+		{# dump(copieurs) #}
+		<h1>Ajout copieur</h1>
+Les champs annotés d'un <font color="red">*</font> sont obligatoires. L'envoi du formulaire ne se fera pas tant que ces champs ne seront pas remplis.
+
+	<div class="row g-3 needs-validation" novalidate style="padding: 1px; margin-left: 50; margin-right : 50;">
+		<form method="post" name="origine" action="ajout_copieur/create">
+			<br>
+			
+			<div class="row">
+				<div class="col-1">
+					<label for="modele" class="form-label">modele&nbsp;<font color="red">*</font></label>
+					
+				</div>
+				<div class="col-2">
+					
+					<select name="listemodele" class="form-control" >
+						<option value=" -1 "> Choisir...</option>
+						{% for modele in modeles %}
+						
+						<option name="modele_id" value="{{ modele.Id }}" id="{{ modele.Id }}" >{{ modele.Libelle }}</option>
+						
+						{% endfor %}
+					</select>
+					
+				</div>
+				<div class="col-1">
+					<label for="site">site&nbsp;<font color="red">*</font></label>
+					
+				</div>
+				<div class="col-2">
+					<input type="hidden" name="choixSiteId"/>
+					<!-- cette zone va recevoir l'id du site choisi -->
+					<textarea class="form-control" name="choixSite" cols="50" rows="2" readonly></textarea>
+        	
+					<a href="/annuaire/choixObjet.php?table=site"  target="popup"  onclick="window.open('/annuaire/choixObjet.php?table=site','popup','width=800,height=800'); return false;">
+    choisir
+</a>
+				</div>
+				<div class="col-1">
+					<label for="service">service&nbsp;<font color="red">*</font></label>
+				</div>
+				<div class="col-2">
+					<input type="hidden" name="choixServiceId"/>
+					<textarea class="form-control" name="choixService" cols="50" rows="2" readonly></textarea>
+        			</input>
+
+		<a href="/annuaire/choixObjet.php?table=service"  target="popup"  onclick="window.open('/annuaire/choixObjet.php?table=service','popup','width=800,height=800'); return false;">
+    choisir
+</a>
+				</div>
+			</div>
+
+			{#  ############################### #}
+			<br>
+
+			<div class="row justify-content-start">
+				<div class="col-1">
+					<label for="matricule" class="form-label">matricule&nbsp;<font color="red">*</font></label>
+					
+				</div>
+				<div class="col-1">
+					<input type="text" class="form-control" name="matricule" id="matricule" required value="{{copieur.matricule}}">
+				</div>
+				<div class="col-1 offset-md-1">
+					<label for="numero ugap">n° ugap&nbsp;<font color="red">*</font></label>
+					
+				</div>
+				<div class="col-1">
+					<input type="number" class="form-control" name="numero_ugap" id="numero_ugap" required value="{{copieur.num_ugap}}">
+				</div>
+				<div class="col-1 offset-md-1">
+					<label for="numero_dossier">n° dossier&nbsp;<font color="red">*</font></label>
+					
+				</div>
+				<div class="col-1">
+					<input type="number" class="form-control" name="numero_dossier" id="numero_dossier" required value="{{copieur.num_dossier}}">
+				</div>
+			</div>
+
+			{#  ############################### #}
+			<br>
+
+			<div class="row">
+				<div class="col-1">
+					<label for="prix_achat_ht">prix d'achat ht&nbsp;<font color="red">*</font></label>
+					
+				</div>
+				<div class="col-1">
+					<input type="number" class="form-control" name="prix_achat_ht" id="prix_achat_ht" required value="{{copieur.prix_achat_ht}}">
+				</div>
+				<div class="col-1 offset-md-1">
+					<label for="prix_achat_ttc">prix d'achat ttc&nbsp;<font color="red">*</font></label>
+					
+				</div>
+				<div class="col-1">
+					<input type="number" class="form-control" name="prix_achat_ttc" id="prix_achat_ttc" required value="{{copieur.prix_achat_ttc}}">
+				</div>
+				<div class="col-1 offset-md-1">
+					<label for="date_achat">date achat&nbsp;<font color="red">*</font></label>
+					
+				</div>
+				<div class="col-1">
+					<input type="date" class="form-control" name="date_achat" id="date_achat" required value="{{copieur.date_achat}}">
+				</div>
+				<div class="col-1 offset-md-1">
+					<label for="date_livraison">date livraison&nbsp;<font color="red">*</font></label>
+					
+				</div>
+				<div class="col-1">
+					<input type="date" class="form-control" name="date_livraison" id="date_livraison" required value="{{copieur.date_livraison}}">
+				</div>
+			</div>
+
+			{#  ############################### #}
+			<br>
+
+			<div class="row">
+				<div class="col-1">
+					<label for="recto_verso">recto_verso</label>
+				</div>
+				<div class="col-1">
+					<input type="checkbox" name="recto_verso" id="recto_verso"  value="{{copieur.recto_verso}}"  >
+					<input type="hidden" name="recto_verso" value="0" > 
+				</div>
+				<div class="col-1 offset-md-1">
+					<label for="finisseur">finisseur</label>
+				</div>
+				<div class="col-1">
+					<input type="text" class="form-control" name="finisseur" id="finisseur" value="{{copieur.finisseur}}">
+					
+				</div>
+				<div class="col-1 offset-md-1">
+					<label for="a3">format A3</label>
+				</div>
+				<div class="col-1">
+					<input type="checkbox" name="a3" id="a3" value="{{copieur.a3}}">
+					<input type="hidden" name="a3" value="0" > 
+				</div>
+				<div class="col-1 offset-md-1">
+					<label for="couleur">couleur</label>
+				</div>
+				<div class="col-1">
+					<input type="checkbox" name="couleur" id="couleur" value="{{copieur.couleur}}">
+					<input type="hidden" name="couleur" value="0" > 
+				</div>
+			</div>
+
+			{#  ############################### #}
+			<br>
+
+			<div class="row">
+				<div class="col-1">
+					<label for="fax">fax</label>
+				</div>
+				<div class="col-1">
+					<input type="checkbox" name="fax" id="fax" value="{{copieur.fax}}">
+					<input type="hidden" name="fax" value="0" > 
+				</div>
+				<div class="col-1 offset-md-1">
+					<label for="logo">logo</label>
+				</div>
+				<div class="col-1">
+					<input type="checkbox" name="logo" id="logo" value="{{copieur.logo}}">
+					<input type="hidden" name="logo" value="0" > 
+				</div>
+				<div class="col-1 offset-md-1">
+					<label for="adresse_ip">adresse ip</label>
+				</div>
+				<div class="col-2">
+					<input type="number" name="adresse_ip1" id="adresse_ip1" value="{{copieur.adresse_ip1}}" style="width:40px;">
+					.
+					<input type="number" name="adresse_ip2" id="adresse_ip2" value="{{copieur.adresse_ip2}}" style="width:40px;">
+					.
+					<input type="number" name="adresse_ip3" id="adresse_ip3" value="{{copieur.adresse_ip3}}" style="width:40px;">
+					.
+					<input type="number" name="adresse_ip4" id="adresse_ip4" value="{{copieur.adresse_ip4}}" style="width:40px;">
+					
+				</div>
+				<div class="col-1">
+					<label for="lecteur_badge">lecteur</label>
+				</div>
+				<div class="col-1">
+					<input type="checkbox" name="lecteur_badge" id="lecteur_badge" value="{{copieur.lecteur}}">
+					<input type="hidden" name="lecteur_badge" value="0" > 
+				</div>
+			</div>
+
+			{#  ############################### #}
+			<br>
+
+
+			<div class="row">
+				<div class="col-1">
+					<label for="numero">numero contrat&nbsp;<font color="red">*</font></label>
+					
+				</div>
+				<div class="col-1">
+					<input type="number" class="form-control" name="numero" id="numero" required value="{{copieur.adresse_ip4}}">
+				</div>
+				<div class="col-1 offset-md-1">
+					<label for="date_debut">date contrat&nbsp;<font color="red">*</font></label>
+					
+				</div>
+				<div class="col-1">
+					<input type="date" class="form-control" name="date_debut" id="date_debut" required value="{{copieur.adresse_ip4}}">
+				</div>
+				<div class="col-1 offset-md-1">
+					<label for="duree">duree contrat&nbsp;<font color="red">*</font></label>
+					
+				</div>
+				<div class="col-1">
+					<input type="number" class="form-control" name="duree" id="duree" required value="{{copieur.adresse_ip4}}">
+				</div>
+				<div class="col-1 offset-md-1">
+					<label for="prix_trim_maintenance">prix trimestrielle&nbsp;<font color="red">*</font></label>
+					
+				</div>
+				<div class="col-1">
+					<input type="number" class="form-control" name="prix_trim_maintenance" id="prix_trim_maintenance" required value="{{copieur.adresse_ip4}}">
+				</div>
+			</div>
+
+			{#  ############################### #}
+			<br>
+
+			<div class="row">
+				<div class="col-1">
+					<label for="cout_cop_noir">cout copie noir&nbsp;<font color="red">*</font></label>
+					
+				</div>
+				<div class="col-1">
+					<input type="number" class="form-control" name="cout_cop_noir" id="cout_cop_noir" required value="{{copieur.adresse_ip4}}">
+				</div>
+				<div class="col-2">
+					<label for="nb_trim_cop_noir">nombre trimestriel de copie noir&nbsp;<font color="red">*</font></label>
+					
+				</div>
+				<div class="col-1">
+					<input type="number" class="form-control" name="nb_trim_cop_noir" id="nb_trim_cop_noir" required value="{{copieur.adresse_ip4}}">
+				</div>
+			</div>
+
+			{#  ############################### #}
+			<br>
+
+			<div class="row">
+				<div class="col-1">
+					<label for="cout_cop_coul">cout copie couleur&nbsp;<font color="red">*</font>
+					</label>
+				</div>
+				<div class="col-1">
+					<input type="number" class="form-control" name="cout_cop_coul" id="cout_cop_coul" required value="{{copieur.adresse_ip4}}">
+				</div>
+				<div class="col-2">
+					<label for="nb_trim_cop_coul">nombre trimestriel de copie couleur&nbsp;<font color="red">*</font></label>
+					
+				</div>
+				<div class="col-1">
+					<input type="number" class="form-control" name="nb_trim_cop_coul" id="nb_trim_cop_coul" required value="{{copieur.adresse_ip4}}">
+				</div>
+			</div>
+
+			{#  ############################### #}
+			<br>
+
+			<div class="row">
+				<div class="col-1">
+					<label for="cout_cop_logo">cout copie logo&nbsp;<font color="red">*</font></label>
+					
+				</div>
+				<div class="col-1">
+					<input type="number" class="form-control" name="cout_cop_logo" id="cout_cop_logo" required value="{{copieur.adresse_ip4}}"></td>
+			</div>
+			<div class="col-2">
+				<label for="nb_trim_cop_logo">nombre trimestriel de copie logo&nbsp;<font color="red">*</font></label>
+				
+			</div>
+			<div class="col-1">
+				<input type="number" class="form-control" name="nb_trim_cop_logo" id="nb_trim_cop_logo" required value="{{copieur.adresse_ip4}}"></td>
+		</div>
+	</div>
+
+
+	{#  ############################### #}
+	<br>
+	<div class="row">
+		<div class="col-1">
+			<label for="commentaire">commentaire</label>
+		</div>
+		<div class="col-5">
+			<textarea class="form-control" name="commentaire" id="commentaire"></textarea>
+		</div>
+	</div>
+
+	<button class="btn btn-primary" type="submit">Enregistrer</button>
+
+
+</form></div></div></div>{% endblock %}

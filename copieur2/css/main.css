@@ -1,0 +1,18 @@
+
+.btn-group{
+   background-color:#E5E8E8;
+}
+
+.visible
+{
+}
+
+.invisible
+{
+	display:none;
+}
+
+.tablesorter-pager .btn-group-sm .btn {
+   font-size: 1.2em; /* make pager arrows more visible */
+}
+

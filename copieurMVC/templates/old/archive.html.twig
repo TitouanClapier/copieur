@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <a href="index.php" style="margin-top:30px;" class="btn btn-outline-primary col-lg-12 ;">Revenir aux demandes en cours</a>
+            <div class="col-lg-12">
+                <br/>
+                <table class="table table-hover table-striped ">
+                    <thead>
+                    <tr>
+                        <th scope="col">Numéro</th>
+                        <th scope="col" style="text-align: center;" >Date</th>
+                        <th scope="col" style="text-align: center;">Nom Prénom</th>
+                        <th scope="col" style="text-align: center;">Nom du tiers</th>
+                        <th scope="col" style="text-align: center;">Type du tiers</th>
+                        <th scope="col" style="text-align: center;">Etat de traitement</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for fiche in fiches %}
+                        <tr onclick="document.location.href='../../public/index.php' ">
+                            <th scope='row'>{{ fiche.id }}</th>
+                            <td>{{ fiche.date | date('d/m/y') }}</td>
+                            <td>{{ fiche.nomprenom }}</td>
+                            <td>{{ fiche.raisonsocialnom  }} {{ fiche.Raisonsocial2Prenom  }}</td>
+                            <td>{% if fiche.type == 1 %}Physique{% elseif fiche.type ==2 %}Morale{% elseif fiche.type == 3 %}Profession libérale{% endif %}</td>
+                            <td>
+                                {% if fiche.etat == 0 %}
+                                    <p hidden>1</p>
+                                    <button class="btn btn-sm btn-outline-warning "title="{% if fiche.commentaire %}Demande de modification : {{ fiche.commentaire }}{% else %} Non envoyé {% endif %} "><span class="oi oi-warning" aria-hidden="true"></span></button>
+                                {% elseif fiche.etat == 1 %}
+                                    <p hidden>2</p>
+                                    <button class="btn btn-sm btn-outline-primary "title="Non traité {{ fiche.commentaire }}"><span class="oi oi-clock" aria-hidden="true"></span></button>
+                                {% elseif fiche.etat == 2 %}
+                                    <p hidden>3</p>
+                                    <button class="btn btn-sm btn-outline-secondary "title="En cours de traitement {{ fiche.commentaire }}"><span class="oi oi-wrench" aria-hidden="true"></span></button>
+                                {% elseif fiche.etat == 3 %}
+                                    <p hidden>4</p>
+                                    <button class="btn btn-sm btn-outline-success "title="Traité {{ fiche.commentaire }}"><span class="oi oi-check" aria-hidden="true"></span></button>
+                                {% elseif fiche.etat == -1 %}
+                                    <p hidden>5</p>
+                                    <button class="btn btn-sm btn-outline-danger "title="Refusé {{ fiche.commentaire }}"><span class="oi oi-warning" aria-hidden="true"></span></button>
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+

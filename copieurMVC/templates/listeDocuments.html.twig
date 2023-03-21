@@ -1,0 +1,114 @@
+{% extends "nav.html.twig" %}
+
+{% block body %}
+
+	<div style="padding: 5px;">
+
+		<h1>Bilan
+			<?php if (isset($_GET["annee"])) echo $_GET["annee"] ?>
+		</h1>
+
+		Choisir une année :
+		{% set annee = "now"|date("Y") %}
+		{% set debut = 2009 %}
+		{% set ecart = annee - debut %}
+
+		<form method="get">
+			<select name="annee" id="annee">
+				<option value=''>
+					choisir...
+				</option>
+				{% for i in range(0, ecart) %}
+					<option>
+						{{ annee - i }}
+					</option>
+				{% endfor %}
+			</select>
+			<input type="submit" value="Confirmer">
+		</form>
+
+		
+		{#dump( app.request.get(annee))#}
+
+	</div>
+
+{{dump(documents)}}
+	<nav>
+		<div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+			{% for type in types %}
+				
+				{% set typedoc1 = type.libelle|replace({' ': '_'}) %}
+				{% set idtypedoc1 = type.Id %}
+				{% set nom = type.libelle %}
+				{% if idtypedoc1 == 1 %}
+					<button class="nav-link active" id="nav-{{typedoc1}}-tab" data-bs-toggle="tab" data-bs-target="#nav-{{typedoc1}}" type="button" role="tab" aria-controls="nav-{{typedoc1}}" aria-selected="true">{{nom}}</button>
+				{% else %}
+					<button class="nav-link " id="nav-{{typedoc1}}-tab" data-bs-toggle="tab" data-bs-target="#nav-{{typedoc1}}" type="button" role="tab" aria-controls="nav-{{typedoc1}}" aria-selected="false">{{nom}}</button>
+				{% endif %}
+			{% endfor %}
+
+		</div>
+	</nav>
+	<div class="tab-content" id="nav-tabContent">
+		{% for undocument in documents %}
+			
+			{% set nom = undocument.libelle %}
+			{% set typedoc1 = undocument.libelle|replace({' ': '_'}) %}
+			{% set idtypedoc = undocument.Id %}
+			{% set idtable = undocument.Id + 10 %}
+
+
+			{% if idtypedoc1 == 1 %}
+				<div class="tab-pane fade show active" id="nav-{{typedoc}}" role="tabpanel" aria-labelledby="nav-{{typedoc}}-tab">
+				{% else %}
+					<div class="tab-pane fade" id="nav-{{typedoc}}" role="tabpanel" aria-labelledby="nav-{{typedoc}}-tab">
+					{% endif %}
+				{% endfor %}
+
+
+				<table class="table-bordered " table-dark id='table"{{idtable}}"'>
+					<thead
+						class="thead-dark">
+						<!-- add class="thead-light" for a light header -->
+						<tr>
+							<th>Matricule</th>
+							<th>Modèle</th>
+							<th>N° document</th>
+							<th>Date</th>
+							<th>N° de mandat</th>
+							<th>N° d'engagement</th>
+							<th>Montant en euros</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						{% set compte = 0 %}
+						{% for document in documents %}
+							{% set compte = compte + 1 %}
+							<tr>
+
+								<td>
+									<u>
+										<a href="CopieurDetail.php?id= $copieur['id'] ">{{ document.CopMatricule }}</a>
+										<u></td>
+										<td>{{ document.DocId }}</td>
+										<td>{{ document.ModLibelle }}</td>
+										<td>{{ document.numero }}</td>
+										<td>{{ document.date_reception|date("d/m/Y")}}</td>
+										<td>{{ document.numero_mandat }}</td>
+										<td>{{ document.numero_engagement }}</td>
+										<td>{{ document.montant_ttc }}</td>
+
+									</tr>
+								{% endfor %}
+								Liste de tous les document:{{compte}}</tr>
+						</tr>
+					</tbody>
+				</table>
+				Sum of Money:
+				<span class="total"></span>
+			</div>
+		</div>
+	</div>
+{% endblock %}

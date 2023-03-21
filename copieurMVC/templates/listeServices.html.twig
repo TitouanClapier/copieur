@@ -1,0 +1,33 @@
+{% extends "nav.html.twig" %}
+
+{% block body %}
+
+	<div
+		style="padding: 5px;">
+		{# dump(services) #}
+		<h1>services ayant des copieurs :</h1>
+		<table class="table-bordered " table-dark id='table'>
+			<thead
+				class="thead-dark">
+				<!-- add class="thead-light" for a light header -->
+				<tr>
+					<th>Service</th>
+					<th>Compteur</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% set compte = 0 %}
+				{% for service in services %}
+					{% set compte = compte + 1 %}
+					<tr>
+						<td>{{ service.ServId[0] }}</td>
+						<td>{{ service.Compte }}</td>
+
+					</tr>
+				</td>
+			</tbody>
+		</tr>
+	{% endfor %}
+	Liste de tous les services:
+	{{compte}}
+</tbody></td></tr></table></tbody></div>{% endblock %}

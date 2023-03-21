@@ -1,0 +1,94 @@
+{% extends "base.html.twig" %}
+
+{% block nav %}
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/copieurMVC/public/">Copieurs CD28</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/copieurMVC/public/"><img
+                                    src="img/accueil.png" width="22" height="22" class="d-inline-block align-center"
+                                    alt=""> Accueil</a>
+                    </li>
+                    <!-- <?php if (isset($_SESSION["cop_identifiant"]) and $_SESSION["cop_identifiant"] != Null) { ?>-->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Copieur
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="ajout_copieur"><img src="img/plus.png" width="22"
+                                                                                   height="22"
+                                                                                   class="d-inline-block align-center"
+                                                                                   alt=""> &nbsp; Ajouter un copieur</a>
+                            </li>
+                            <li><a class="dropdown-item" href="listecopieurs"><img src="img/liste.png" width="22"
+                                                                                   height="22"
+                                                                                   class="d-inline-block align-center"
+                                                                                   alt=""> &nbsp; Liste des copieurs</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Gestion
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="listeSites"><img src="img/localisateur.png" width="22"
+                                                                                height="22"
+                                                                                class="d-inline-block align-center"
+                                                                                alt=""> &nbsp; Sites</a></li>
+                            <li><a class="dropdown-item" href="listeServices"><img src="img/public-service.png"
+                                                                                   width="22" height="22"
+                                                                                   class="d-inline-block align-center"
+                                                                                   alt=""> &nbsp; Services</a></li>
+                            <li><a class="dropdown-item" href="listeModeles"><img src="img/imprimer.png" width="22"
+                                                                                  height="22"
+                                                                                  class="d-inline-block align-center"
+                                                                                  alt=""> &nbsp; Modèles</a></li>
+                            <li><a class="dropdown-item" href="listeTypes"><img src="img/feuille.png" width="22"
+                                                                                height="22"
+                                                                                class="d-inline-block align-center"
+                                                                                alt=""> &nbsp; Types de documents</a>
+                            </li>
+                            <li><a class="dropdown-item" href="listeDocuments"><img src="img/graphique.png" width="22"
+                                                                                    height="22"
+                                                                                    class="d-inline-block align-center"
+                                                                                    alt=""> &nbsp; Bilan financier</a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <!--<?php } ?>-->
+                </ul>
+            </div>
+            <!--<?php
+                if (isset($_SESSION["cop_identifiant"]) and $_SESSION["cop_identifiant"] != Null) { ?> -->
+{% if nom != Null %}
+            <span class="navbar-text">
+    <a class="item"> {{ prenom }}</a>
+    <a class="item"> {{ nom }}</a>
+    <a class="item"> ({{ role }}) </a>
+    <a class="navbar-brand" href="/copieurMVC/public/connexion/logout" style="color: red">Deconnexion</a>
+                {% else %}
+                <!--<?php %} else { ?> -->
+                                                                                <a class="navbar-brand"
+                                                                                   href="connexion">Connexion</a>
+                {% endif %}
+
+
+
+    </span>
+        </div>
+    </nav>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "nav.html.twig" %}
+
+{% block body %}
+
+	<div
+		style="padding: 5px;">
+		{# dump(sites) #}
+		<h1>Sites ayant des copieurs :</h1>
+		<table class="table-bordered " table-dark id='table'>
+			<thead
+				class="thead-dark">
+				<!-- add class="thead-light" for a light header -->
+				<tr>
+					<th>Site</th>
+					<th>compteur</th>
+					<th>plan du site</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% set compte = 0 %}
+				{% for site in sites %}
+					{% set compte = compte + 1 %}
+					<tr>
+						<td>{{ site.SiteId[0] }}</td>
+						<td>{{ site.Compte }}</td>
+						<td>
+							{% if site.Plan %}
+								<a href={{ site.Plan }}>
+									<i class="bi bi-map-fill" style=" font-size: 1rem; color: cornflowerblue;"></i>
+								</a>
+							</td>
+						{% endif %}
+					</tr>
+				</td>
+			</tbody>
+		</tr>
+	{% endfor %}
+	Liste de tous les sites:
+	{{compte}}
+</tbody></td></tr></table></tbody></div>{% endblock %}

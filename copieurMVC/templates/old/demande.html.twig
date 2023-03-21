@@ -1,0 +1,403 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+<form method="post" id="my_form" action="../../public/index.php?route=addDemande{% if fiche %}&fiche={{ fiche.id }}{% endif%}" enctype="multipart/form-data">
+    <div {% if etat == 0 %}class='container-fluid' {% else %} class='container' {% endif %} style="overflow-X:hidden" >
+        <div class="row">
+    {% if etat != 0 %}
+<!--
+
+             __      __
+             \ \    / (_)   (_)
+              \ \  / / _ ___ _  ___  _ __  _ __   __ _  __ _  ___
+               \ \/ / | / __| |/ _ \| '_ \| '_ \ / _` |/ _` |/ _ \
+                \  /  | \__ \ | (_) | | | | | | | (_| | (_| |  __/
+                 \/   |_|___/_|\___/|_| |_|_| |_|\__,_|\__, |\___|
+                                                        __/ |
+                                                       |___/
+-->
+                {% if fiche.commentaire %}
+                    <div class="alert alert-warning col-lg-12" role="alert">
+                    {{ fiche.commentaire }}
+                    </div>
+                {% endif %}
+
+                <div class="col-lg-12">
+                    <h3>Fiche de demande de {% if fiche.creationmodifmode%}création{% else %}modification{% endif %} de tiers</h3>
+                </div>
+
+                {% if role == 'finances' %}
+
+                    <div class="col-lg-7">
+                        <input type="text" id="traitement_commentaire" name="commentaire" class="form-control" placeholder="Commentaire" value="{{ fiche.commentaire }}">
+                    </div>
+
+                    <div class="col-lg-3">
+                        <select id="traitement_etat" name="etat" class="form-control">
+                            <option value="1" {% if fiche.etat == 1 %}selected{% endif %}>Non traité</option>
+                            <option value="2" {% if fiche.etat == 2 %}selected{% endif %}>En cours de traitement</option>
+                            <option value="3" {% if fiche.etat == 3 %}selected{% endif %}>Traité</option>
+                            <option value="0" {% if fiche.etat == 0 %}selected{% endif %}>Demande modification</option>
+                            <option value="-1" {% if fiche.etat == -1 %} selected{% endif %}>Refusé</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <button type="submit" id="traitement_traitement" name="bouton" value="traitement" class="btn btn-success">Enregistrer</button>
+                    </div>
+
+                     <br />
+
+                {% endif %}
+        </div> <!-- Ferme le div class= row ligne 8 dans la partie visionnage -->
+        <div class="row bloc">
+
+            <div class="col-lg-12">
+                <b>Demandeur</b></br>
+                <span class="policePlusGrande"> {{ fiche.nomprenom }}</span></br>
+                {{ fiche.nomdirection }}</br>
+                {{ fiche.mail }}</br>
+                {{ fiche.numerotelephone }}</br>
+            </div>
+
+        </div>
+        <div class="row bloc" id="renseignement">
+
+            <div class="col-lg-12">
+                <b>Renseignements du tiers</b></br>
+                <span>Type de personne :</span>
+                {% if fiche.type == 1 %}Physique{% elseif fiche.type == 2 %}Morale{% elseif fiche.type == 3 %}Profession libérale{% endif %}</br>
+                <span class="policePlusGrande">
+                     {% if fiche.civilite == 1 and fiche.type != 2%}M.{% elseif fiche.civilite == 2 and fiche.type != 2  %}Mme{% endif %}
+                     {{ fiche.raisonsocialnom }}
+                     {{ fiche.raisonsocial2prenom }}
+                </span>
+                </br>
+                {% if fiche.siret %}Siret : {{ fiche.siret }}{% endif %}
+                {% if fiche.profession %}</br>Profession : {{ fiche.profession }}{% endif %}
+                {% if date %}</br>Date de naissance : {{ date }}</br> Ville de naissance : {{ fiche.lieunaissance }} {% endif %}
+            </div>
+
+        </div>
+
+        <div class="row bloc">
+            <div class="col-lg-12">
+                <b>Adresse</b></br>
+                {{ fiche.adresse }}</br>
+                {{ fiche.codepostal }} {{ fiche.ville }}</br>
+                {{ fiche.pays }}
+            </div>
+        </div>
+
+        {% if fiche.telephone or fiche.cedex or fiche.association %}
+            <div class="row bloc">
+                <div class="col-lg-12">
+                    <b>Informations complémentaires</b>
+                    {% if fiche.telephone %}</br><span>Téléphone :</span> {{ fiche.telephone }}{% endif %}
+                    {% if fiche.cedex %}</br><span>Cedex :</span> {{ fiche.cedex }}{% endif %}
+                    {% if fiche.codeNaf %}</br><span>Code NAF :</span> {{ fiche.codeNaf }}{% endif %}
+                    {% if fiche.numeroPrefectureWaldeck %}</br><span>Numero prefecture waldeck :</span> {{ fiche.numeroPrefectureWaldeck }}{% endif %}
+                    {% if fiche.dateDeclaration %}</br><span>Date de déclaration : </span> {{ fiche.dateDeclaration }}{% endif %}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if pjs != null %}
+            <div class="row bloc">
+                <div class="col-lg-12">
+                    <b>Pièce jointes :</b></br>
+                    {% for pj in pjs %}
+                        <li><a href="../public/pj/{{ pj.chemin }}">{{ pj.chemin }}</a></li>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+<!--
+  _____                     _   _
+ |_   _|                   | | (_)
+   | |  _ __  ___  ___ _ __| |_ _  ___  _ __
+   | | | '_ \/ __|/ _ \ '__| __| |/ _ \| '_ \
+  _| |_| | | \__ \  __/ |  | |_| | (_) | | | |
+ |_____|_| |_|___/\___|_|   \__|_|\___/|_| |_|
+
+-->
+
+    {% else %}
+        {% if fiche.commentaire %}
+            <div class="alert alert-warning col-lg-6" role="alert">
+                {{ fiche.commentaire }}
+            </div>
+        {% endif %}
+
+        <div class="col-lg-12">
+            <h3>Fiche de demande de création /modification de tiers</h3>
+        </div>
+
+        <div class="col-lg-2 col-sm-4">
+            <div class="form-group">
+                <label class="col-from-label">Nom de la Direction</label>
+                <input type="text" id="demande_nom_direction" name="nom_direction" class="form-control" value='{{ direction }}'>
+            </div>
+        </div>
+
+        <div class="col-lg-2  col-sm-4">
+            <div class="form-group">
+                <label class="col-from-label">Nom - Prénom du demandeur</label>
+                <input type="text" id="demande_nom_prenom" name="nom_prenom" class="form-control" value="{{ nom }}" readonly >
+            </div>
+        </div>
+
+        <div class="col-lg-2  col-sm-4">
+            <div class="form-group">
+                <label class="col-from-label">N° téléphone</label>
+                <input type="text" id="demande_numero_telephone" name="numero_telephone" class="form-control" value="{{ telephone }}">
+            </div>
+        </div>
+
+        <div class="col-lg-3  col-sm-4">
+            <div class="form-group">
+                <label class="cpjol-from-label">Mail :</label>
+                <input type="text" id="demande_mail" name="mail" required="required" class="form-control" value="{{ mail }}">
+
+            </div>
+        </div>
+
+        </div> <!-- Ferme le div class= row ligne 8 dans la partie insertion -->
+
+        <div class="row">
+        <div class="col-lg-12">
+            <H3>Renseignements du tiers</H3>
+        </div>
+
+        <div class="col-lg-2  col-sm-4">
+            <div class="form-check">
+                <input type="radio" id="demande_creation_modif_mode_0" name="creation_modif_mode" required="required" value="1" {% if fiche.creationmodifmode == 1 %}checked {% endif %}>
+                <label class="form-check-label" for="demande_creation_modif_mode_0" >Création</label>
+            </div>
+
+            <div class="form-check">
+                <input type="radio" id="demande_creation_modif_mode_1" name="creation_modif_mode" required="required" value="0" {% if fiche.creationmodifmode != null and fiche.creationmodifmode == 0  %}checked {% endif %}>
+                <label class="form-check-label" for="demande_creation_modif_mode_1">Modification</label>
+            </div>
+        </div>
+
+        <div class="col-lg-2  col-sm-4 modif">
+            <div class="form-group">
+                <label class="col-from-label">N° tiers coriolis :</label>
+                <input type="text" id="demande_numero_tiers" name="numero_tiers" class="form-control" value="{{ fiche.numerotiers }}" onchange="numeroTiers(this.value)">
+            </div>
+        </div>
+
+        <div class="col-lg-2 col-sm-4 crea" >
+            <div class="form-group">
+                <label class="col-from-label">Type de personne :</label>
+                <select id="demande_type" name="type" class="form-control" onchange="typeChoix(this.value)">
+                    <option value="0" {% if fiche.type == 0  %}selected {% endif %}disabled>Choisir le type</option>
+                    <option value="1" {% if fiche.type == 1 %}selected{% endif %}>Physique</option>
+                    <option value="2" {% if fiche.type == 2 %}selected{% endif %}>Morale</option>
+                    <option value="3" {% if fiche.type == 3 %}selected{% endif %}>Profession libérale</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-lg-2 col-sm-4 physique liberale">
+            <div class="form-group">
+                <label class="col-from-label">Civilite</label>
+                <select id="demande_civilite" name="civilite" class="form-control">
+                    <option value="0"{% if fiche.civilite == 0 %}selected disabled{% endif %}>Choisir la civilité</option>
+                    <option value="1"{% if fiche.civilite == 1 %}selected {% endif %}>M.</option>
+                    <option value="2"{% if fiche.civilite == 2 %}selected {% endif %}>Mme</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-lg-2 col-sm-4  morale liberale">
+            <div class="form-group">
+                <label class="col-from-label">N° SIRET</label>
+                <input type="text" id="demande_siret" name="siret" class="form-control" onchange="siretInfo(this.value)" value="{{ fiche.siret }}" >
+            </div>
+        </div>
+
+        <div class="input-group col-lg-2 col-sm-4 morale">
+            <div class="form-check" style="margin-top: 37px;">
+                <input type="checkbox" id="demande_association" name="association" class="form-check-input" onchange="associationClick()" value="1"{% if fiche.association == 1 %}checked{% endif %}>
+                <label class="form-check-label" for="exampleCheck1">Association loi 1901</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 info">
+            <div class="row gauche">
+
+                <div class="col-lg-4 col-sm-4">
+                    <div class="form-group">
+                        <label class="col-from-label">Raison sociale 1/ Nom :</label>
+                        <input type="text" id="demande_raisonsocial_nom" name="raisonsocial_nom" required="required" class="form-control" value="{{ fiche.raisonsocialnom }}" >
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-sm-4">
+                    <div class="form-group">
+                        <label class="col-from-label">Raison sociale 2/ Prénom :</label>
+                        <input type="text" id="demande_raisonsocial2_prenom" name="raisonsocial2_prenom" class="form-control" value="{{ fiche.raisonsocial2prenom }}" >
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-sm-4">
+                    <div class="form-group">
+                        <label class="col-from-label">Téléphone :</label>
+                        <input type="text" id="demande_telephone" name="telephone" class="form-control" value="{{ fiche.telephone }}">
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-sm-4 liberale">
+                    <div class="form-group">
+                        <label class="col-from-label">Profession :</label>
+                        <input type="text" id="demande_profession" name="profession" class="form-control" value="{{ fiche.profession }}">
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-sm-4 morale">
+                    <div class="form-group">
+                        <label class="col-from-label">Code NAF :</label>
+                        <input type="text" id="demande_code_naf" name="code_naf" class="form-control" value="{{ fiche.codenaf }}">
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-sm-4 association" >
+                    <div class="form-group">
+                        <label class="col-from-label">N° prefecture/ Waldeck :</label>
+                        <input type="text" id="demande_numero_prefecture_waldeck" name="numero_prefecture_waldeck" class="form-control" value="{{ fiche.numeroprefecturewaldeck }}">
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-sm-4 association" >
+                    <div class="form-group">
+                        <label class="col-from-label">Date de déclaration :</label>
+                        <input type="date" id="demande_date_declaration" name="date_declaration" class="form-control" value="{{ fiche.datedeclaration }}">
+                    </div>
+                </div>
+
+                <div class="col-lg-8 col-sm-4 pj">
+                    <div class="form-group">
+                        <label >Ajout de PJ :</label>
+                        <ul id="pj-list">
+                            {% for pj in pjs %}
+                            <li id={{ pj.id}}>
+                                <a href="../public/pj/{{ pj.chemin }}"  target="_blank">{{ pj.chemin }}</a>
+                                <button type="button" class="btn btn-outline-danger btn-sm" name="deletePj" value="deletePj" title="Supprimer le fichier" onclick="if(window.confirm('Voulez-vous vraiment supprimer une pièce jointe ?')){return suppPj({{ pj.id }});}else{return false;}" >
+                                    <span class="fa fa-trash" aria-hidden="true"></span>
+                                </button>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <button type="button" class="btn btn-outline-success btn-sm ajout-pj" name="ajout" value="ajout" title="Ajouter une pj">
+                            <span class="oi oi-plus" aria-hidden="true"></span>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger btn-sm supp-pj "  name="supp" value="supp" title="Supprimer une pj">
+                            <span class="oi oi-minus" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-lg-6 info ">
+            <div class="row droite">
+
+                <div class="col-lg-3 col-sm-4">
+                    <div class="form-group">
+                        <label class="col-from-label">Pays :</label>
+                        <input type="text" id="demande_pays" name="pays" class="form-control" onchange="noFrance(this.value)" {% if fiche.pays %}value="{{ fiche.pays }}"{% else %}value="France"{% endif %}>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-sm-4">
+                    <div class="form-group">
+                        <label class="col-from-label">Code Postal :</label>
+                        <input type="text" id="demande_code_postal" name="code_postal" class="form-control" value="{{ fiche.codepostal }}">
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-sm-4">
+                    <div class="form-group">
+                        <label class="col-from-label">Ville :</label>
+                        <input id="demande_ville2" name="ville" class="form-control" value="{{ fiche.ville }}" hidden>
+                        <select id="demande_ville" name="ville" class=" chosen-select">
+                            {% if fiche.ville %}
+                                <option selected>{{fiche.ville}}</option>
+                            {% else %}
+                                <option selected disabled>Sélectionner la ville</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-lg-9 col-sm-4">
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Adresse</label>
+                        <input id="demande_adresse2" name="adresse" class="form-control" value="{{ fiche.adresse }}" hidden>
+                        <select id="demande_adresse" name="adresse" class=" chosen-select">
+                            {% if fiche.adresse %}
+                                <option selected>{{fiche.adresse}}</option>
+                            {% else %}
+                                <option selected disabled>Séléctionner l'adresse</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-sm-4">
+                    <div class="form-group morale liberale">
+                        <label class="col-from-label">Cedex</label>
+                        <input type="text" id="demande_cedex" name="cedex" class="form-control" value="{{ fiche.cedex }}">
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-sm-4 physique liberale">
+                    <div class="form-group">
+                        <label class="col-from-label">Date de naissance :</label>
+                        <input class="form-control" type="date" name="date_naissance" id="demande_date_naissance">
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-sm-4 physique liberale">
+                    <div class="form-group">
+                        <label class="col-from-label">Département de naissance :</label>
+                        <input type="number" id="demande_departement_naissance" name="departement_naissance" class="form-control" value="{{ fiche.departementnaissance }}">
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-sm-4 physique liberale">
+                    <div class="form-group">
+                        <label class="col-from-label">Lieu naissance :</label>
+                        <input id="demande_lieu_naissance2" name="lieu_naissance" class="form-control" value="{{ fiche.ville }}" hidden>
+                        <select id="demande_lieu_naissance" name="lieu_naissance" class=" chosen-select">
+                            {% if fiche.lieunaissance %}
+                                <option selected>{{fiche.lieunaissance}}</option>
+                            {% else %}
+                                <option selected disabled>Séléctionner le lieu de naissance</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if etat == 0 %}
+            <div class="col-lg-12 " style="margin: 20px;">
+                <button type="submit" id="demande_enregistrer" name="bouton" class="btn btn-warning col-lg-1 offset-lg-3" value="save">Continuer plus tard</button>
+                <button type="submit" id="demande_envoyer" name="bouton" class="btn btn-success col-lg-1 offset-lg-1" value="add">Envoyer</button>
+                <button type="submit" id="demande_supprimer" name="bouton" class="btn btn-danger col-lg-1 offset-lg-1" value="supp" onclick="if(window.confirm('Voulez-vous vraiment supprimer votre demande ?')){return true;}else{return false;}" >Supprimer</button>
+            </div>
+        {% endif %}
+    </div>
+</div>
+</form>
+
+{% endif %}
+{% endblock %}
+

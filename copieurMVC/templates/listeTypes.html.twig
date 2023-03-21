@@ -1,0 +1,132 @@
+{% extends "nav.html.twig" %}
+
+{% block body %}
+
+<div style="padding: 3px;">
+	<h1>Gestion Type de documents</h1>
+	<!--CREATE-->
+	<form method="post" name="form1" action="listeTypes/create">
+		<label id="label1" class="invisible" for="libelle">libelle</label>
+		<input id="input1" class="invisible form-control" type="text" name="libelle" id="libelle">
+		<label id="label2" class="invisible" for="NumOrdre">numero ordre</label>
+		<input type="number" id="input2" class="invisible form-control" type="text" name="NumOrdre" id="NumOrdre">
+		<label id="label3" class="invisible" for="invest_fonct">depense</label>
+
+		<span id="btn3" class="invisible">
+		<select id="input3" class="invisible form-control" type="text" name="invest_fonct" id="invest_fonct">
+			<option value="">Choisir...</option>
+			<option value="1">Investissement</option>
+			<option value="0">Fonctionnement</option>
+			<option value="-1">Autre</option>
+		</select>
+
+		
+			<button class="btn btn-outline-success" 
+					onclick="change('btn3','btn4'),invisible('label1'),invisible('label3'),invisible('label3'),invisible('label2'),invisible('input1'),invisible('input2')" 
+					type="submit">
+				<i class="bi bi-check2"></i>
+			</button>
+		</span>
+		<span id="btn4" class="visible">
+
+			<a href="#" class="btn btn-outline-success" 
+			onclick="invisible('btn4'),visible('btn3'),visible('label1'),visible('label2'),visible('input1'),visible('input2'),visible('input3'),visible('label3')">
+				<i class="bi bi-plus-lg"></i>
+			</a>
+		</span>
+	</form>
+
+	<!--READ-->
+	<table class="table-bordered " table-dark >
+		<thead class="thead-dark">
+			<tr>
+				<th>type</th>
+				<th>numero ordre</th>
+				<th>Depense</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+				{% for type in types %}
+				<form name="form2" method="POST" action="listeTypes/update">	
+				<tr>
+						<td>
+							<span id="ligne1{{ type.Id }}" class="visible">
+								{{ type.libelle }}
+							</span>
+							<span id="ligne2{{ type.Id }}" class="invisible">
+								<input class="form-control" name="libelle" type="text" value="{{ type.libelle }}">
+							</span>
+						</td>
+						<td>
+							<span id="ligne3{{ type.Id }}" class="visible">
+								{{ type.NumOrdre }}
+							</span>
+
+							<span id="ligne4{{ type.Id }}" class="invisible">
+								<input type="number" class="form-control" name="NumOrdre" type="text" value="{{ type.NumOrdre }}">
+							</span>
+						</td>
+						<td>
+							<span id="ligne5{{ type.Id }}" class="visible">
+
+
+								{% if  type.InvestFonct  == 0 %}
+									{{'Fonctionnement'}}
+
+								{% elseif  type.InvestFonct  == 1 %}
+									{{'Investissement'}}
+
+								{% else %}
+									{{'Autre'}}
+								{% endif %}
+							
+						
+					
+				</span>
+				
+				<span id="ligne6{{ type.Id }}" class="invisible">
+				
+					<select name="invest_fonct" type="text" value="{{ type.InvestFonct }} ">
+						<option value="{{ type.InvestFonct }}">
+						<option value="1">Investissement</option>
+						<option value="0">Fonctionnement</option>
+						<option value="-1">Autre</option>
+					</select>
+					{{"(laisser vide si pas de changement pour depense)"}}
+				</span>
+			</td>
+
+			<td>
+				<input type="hidden" name="id" value="{{ type.Id }}">
+				<a href="#ligne1{{ type.Id }}" class="visible" id="btn1{{ type.Id }}" onclick="change('ligne1{{ type.Id }}','ligne2{{ type.Id }}'); change('ligne3{{ type.Id }}','ligne4{{ type.Id }}'); visible('ligne6{{ type.Id }}'); change('btn1{{ type.Id }}','btn2{{ type.Id }}'); invisible('supr{{ type.Id }}');">
+
+					<h6>
+						<i class="bi bi-pencil"></i>
+					</h6>
+					
+				</a>
+				<span id="btn2{{ type.Id }}" class="invisible">
+					<button class="btn btn-outline-success" id="btn2" name="btn2{{ type.Id }}" type="submit" value="enregistrer">
+						<i class="bi bi-check2"></i>
+					</button>
+				</span>
+			</form>
+			</td>
+			<td>
+			<form name="formDelete" method="POST" action="listeTypes/delete">
+                        <span id="supr{{ type.Id }}" class="visible">
+							<input type="hidden" name="id" value="{{ type.Id }}">
+                    <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer le type {{ type.Libelle }} ?');"
+                    	href="TypeDelete.php?id={{ type.Id }}?>" style="color: red">
+                    	<h6><i class="bi bi-trash3-fill"></h6></i>
+                    </button>
+				</span>
+				</form>
+			</td>
+	</tr>
+	{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}

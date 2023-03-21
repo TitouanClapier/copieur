@@ -1,0 +1,60 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="container">
+	<div class="row">
+		{% if erreur == false %}
+			<div class="offset-sm-4 col-lg-4 col-sm-6">
+				<br>
+				<br>
+				<!-- FORMULAIRE D'AUTHENTIFICATION -->
+				<div class="card panel-default" style="border: #ffcd28 1px solid;">
+					<div class="card-header">
+						<h3 class="card-title" style="text-align: center;">Connexion</h3>
+					</div>
+					<div class="card-body">
+						<form accept-charset="UTF-8" role="form" method="post" action="../../public/index.php?route=login">
+							<fieldset>
+								<div class="input-group">
+                          			<div class="input-group-prepend">
+                            			<span class="input-group-text"><span class="fa fa-user"></span></span>
+                          			</div>
+									<input type="text" class="form-control" placeholder="identifiant" name="login" required autofocus />
+								</div>
+								<br>
+								<div class="input-group">
+                          			<div class="input-group-prepend">
+                            			<span class="input-group-text">
+											<span class="fa fa-key"></span>
+										</span>
+                          			</div>
+						 			<input type="password" class="form-control" placeholder="mot de passe" name="password"  required/>
+								</div>
+			    				<br>
+			    				<font color=#333333 size="-1"><strong><i><!--jaune pale :  #DBBB4D vert : #3D8E52-->
+									Il s'agit des identifiants, compte utilisateur et mot de
+									passe, que vous saisissez tous les matins en allumant votre
+									ordinateur.
+								</i></strong></font> <br>
+								<br>
+								<input class="btn btn-lg btn-primary btn-block" type="submit" value="Valider">
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		{% else %}
+		<div class="col-sm-12">
+        	<br />
+        	<p><strong><font size ="4">Erreur de connexion : v&eacute;rifiez votre login ou votre mot de passe</font></strong></p>
+		</div>
+        <div class="col-sm-12">
+        	<p>Veuillez contacter la Direction des Innovations Numériques et Systemes d'Information</p>
+		</div>
+        <div class="col-sm-12">
+        	<button type="button" class="btn btn-primary " style="text-align:left" onClick="location.href='index.php'"><span class="glyphicon glyphicon-share-alt"></span> &nbsp;Retour</button>
+		</div>
+	</div>
+</div>
+{% endif %}
+{% endblock %}

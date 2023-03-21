@@ -1,0 +1,16 @@
+{
+ "autoload": {
+  "psr-4":{
+      "App\\src\\":"src/",
+      "App\\config\\":"config/"
+    }
+ },
+  "require": {
+    "ext-pdo": "*",
+  "filp/whoops": "^2.14",
+  "altorouter/altorouter": "^2.0",
+  "symfony/var-dumper": "^5.4",
+  "twig/twig": "^3.4",
+  "vlucas/valitron": "^1.4"
+  }
+}

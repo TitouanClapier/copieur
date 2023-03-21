@@ -1,0 +1,95 @@
+{% extends "nav.html.twig" %}
+
+{% block body %}
+
+    <div style="padding: 3px;">
+        <h1>Gestion Modeles</h1>
+        <!--CREATE-->
+        <form method="post" name="form1" action="listeModeles/create">
+            <label id="label1" class="invisible" for="libelle">libelle</label>
+            <input id="input1" class="invisible form-control" type="text" name="libelle" id="libelle">
+            <label id="label2" class="invisible" for="lien">lien</label>
+            <input id="input2" class="invisible form-control" type="text" name="lien" id="lien">
+
+            <span id="btn3" class="invisible">
+				<button class="btn btn-outline-success"
+                        onclick="change('btn3','btn4'),invisible('label1'),invisible('label2'),invisible('input1'),invisible('input2')"
+                        type="submit">
+					<i class="bi bi-check2"></i>
+				</button>
+			</span>
+            <span id="btn4" class="visible">
+
+				<a href="#" class="btn btn-outline-success"
+                   onclick="invisible('btn4'),visible('btn3'),visible('label1'),visible('label2'),visible('input1'),visible('input2')">
+					<i class="bi bi-plus-lg"></i>
+				</a>
+			</span>
+        </form>
+
+        <!--READ-->
+        <table class="table-bordered " table-dark id='table'>
+            <thead class="thead-dark">
+            <tr>
+                <th>Modele</th>
+                <th>Lien</th>
+                <th>nombre de copieurs</th>
+            </tr>
+            </thead>
+            <tbody>
+			{% set compte = 0 %}
+			{% for modele in modeles %}
+			{% set compte = compte + 1 %}
+            <form name="form2" method="POST" action="listeModeles/update">
+                <tr>
+                    <td>
+							<span id="ligne1{{ modele.Id }}" class="visible">
+								{{ modele.Libelle }}
+							</span>
+                        <span id="ligne2{{ modele.Id }}" class="invisible">
+								<input class="form-control" name="libelle" type="text" value="{{ modele.Libelle }}">
+							</span>
+                    </td>
+                    <td>
+							<span id="ligne3{{ modele.Id }}" class="visible">
+								{{ modele.Lien }}
+							</span>
+                        <span id="ligne4{{ modele.Id }}" class="invisible">
+								<input class="form-control" name="lien" type="text" value="{{ modele.Lien }}">
+							</span>
+                    </td>
+                    <td>{{ modele.Compte }}</td>
+
+                    <td>
+                        <a href="#ligne1{{ modele.Id }}" class="visible" id="btn1{{ modele.Id }}"
+                            onClick="change('ligne1{{ modele.Id }}','ligne2{{ modele.Id }}'); change('ligne3{{ modele.Id }}','ligne4{{ modele.Id }}'); change('btn1{{ modele.Id }}','btn2{{ modele.Id }}'); invisible('supr{{ modele.Id }}');">
+                            <h6><i class="bi bi-pencil"></h6></i>
+                        </a>
+                        <span id="btn2{{ modele.Id }}" class="invisible">
+							<input type="hidden" value="{{ modele.Id }}" name="id">
+                    <button class="btn btn-outline-success" id="btn2" name="btn2{{ modele.Id }}" type="submit"
+                        ><i class="bi bi-check2"></i></button>
+                </span>
+			</form>
+			<form name="formDelete" method="POST" action="listeModeles/delete">
+                        <span id="supr{{ modele.Id }}" class="visible">
+							<input type="hidden" name="id" value="{{ modele.Id }}">
+                    <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer le modele {{ modele.Libelle }} ?');"
+                    href="ModeleDelete.php?id={{ modele.Id }}?>" style="color: red">
+                    <h5><i class="bi bi-trash3-fill"></h5></i>
+                    </button>
+
+                </span>
+			</form>
+                    </td>
+                </tr>
+
+
+
+			{% endfor %}
+            Liste de tous les services:
+            {{ compte }}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
