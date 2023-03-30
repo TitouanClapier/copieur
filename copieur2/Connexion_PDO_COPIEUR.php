@@ -14,7 +14,7 @@ class Connexion_PDO_COPIEUR
     {
         try
 		{
-            $this->dbh = new PDO('mysql:host=localhost;dbname=copieur', 'root', 'a48b7z5', array(PDO::ATTR_PERSISTENT => false));
+            $this->dbh = new PDO('mysql:host=localhost;dbname=basetest2', 'admin', 'admin', array(PDO::ATTR_PERSISTENT => false));
         }
         catch(PDOException $e)
 		{

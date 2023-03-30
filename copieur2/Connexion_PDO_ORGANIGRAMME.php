@@ -14,7 +14,7 @@ class Connexion_PDO_ORGANIGRAMME
     {
         try
 		{
-            $this->dbh = new PDO('mysql:host=localhost;dbname=organigramme', 'root', 'a48b7z5', array(PDO::ATTR_PERSISTENT => false));
+            $this->dbh = new PDO('mysql:host=localhost;dbname=basetest2', 'admin', 'admin', array(PDO::ATTR_PERSISTENT => false));
         }
         catch(PDOException $e)
 		{

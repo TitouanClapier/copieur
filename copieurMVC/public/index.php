@@ -31,19 +31,19 @@ $router
     ->get('/contact'            , 'ContactController#contact'               , 'contact')
     ->get('/contrat'            , 'ContratController#contrat'               , 'contrat')
 
-    ->post('/listeModeles/create'          , 'ModeleController#modelecreate'           , 'modeleCreate')
-    ->post('/listeModeles/update'          , 'ModeleController#modeleUpdate'           , 'modeleUpdate')
-    ->post('/listeModeles/delete'          , 'ModeleController#modeleDelete'           , 'modeleDelete')
+    ->post('/listeModeles/create'           , 'ModeleController#modelecreate'           , 'modeleCreate')
+    ->post('/listeModeles/update'           , 'ModeleController#modeleUpdate'           , 'modeleUpdate')
+    ->post('/listeModeles/delete'           , 'ModeleController#modeleDelete'           , 'modeleDelete')
 
-    ->post('/listeTypes/create'          , 'TypeController#typecreate'           , 'typeCreate')
-    ->post('/listeTypes/update'          , 'TypeController#typeUpdate'           , 'typeUpdate')
-    ->post('/listeTypes/delete'          , 'TypeController#typeDelete'           , 'typeDelete')
+    ->post('/listeTypes/create'             , 'TypeController#typecreate'               , 'typeCreate')
+    ->post('/listeTypes/update'             , 'TypeController#typeUpdate'               , 'typeUpdate')
+    ->post('/listeTypes/delete'             , 'TypeController#typeDelete'               , 'typeDelete')
 
-    ->post('/ajout_copieur/create'          , 'CopieurAjoutController#copieurcreate'           , 'copieurCreate')
+    ->post('/ajout_copieur/create'          , 'CopieurAjoutController#copieurcreate'    , 'copieurCreate')
 
-    ->post('/listeDocuments'          , 'DocumentController#documentread'           , 'documentread')
+    ->post('/listeDocuments'                , 'DocumentController#documentread'         , 'documentread')
 
-    ->post('/connexion/login'          , 'ConnexionController#login'           , 'login')
+    ->post('/connexion/login'               , 'ConnexionController#login'               , 'login')
 //    ->match('/NomChemin','NomController#NomFonction','NomRoute')
 
     ->run();
